@@ -1,3 +1,3 @@
 # Region Latency Meter
 
-This service measure the HTTPS latency from your browser to AWS regions.
+This service measures the HTTPS latency from your browser to AWS regions.

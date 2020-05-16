@@ -21,13 +21,20 @@ td.latency {
     text-align: right;
 }
 
+#results table td.bar {
+    width: 20em;
+}
+
+td.bar .portion {
+    background-color: #03A9F4;
+}
+
 .loader {
-    margin: 2em;
-    border: 6px solid #bfbfbf;
-    border-top: 6px solid black;
+    border: 0.2em solid #bfbfbf;
+    border-top: 0.2em solid black;
     border-radius: 50%;
-    width: 20px;
-    height: 20px;
+    width: 0.5em;
+    height: 0.5em;
     animation: spin 0.5s linear infinite;
 }
 

@@ -1,7 +1,7 @@
 'use strict';
 
 const IP_RANGES_URL = 'https://ip-ranges.amazonaws.com/ip-ranges.json';
-const REGION_ENDPOINT = 'https://dynamodb.%REGION%.amazonaws.%TLD%/ping';
+const REGION_ENDPOINT_TEMPLATE = 'https://dynamodb.%REGION%.amazonaws.%TLD%/ping';
 
 function isLowercase(str) {
     return !(/[A-Z]/.test(str));
@@ -21,16 +21,19 @@ function getRegionFactory(ipRangesUrl) {
             }
 
             const regions = [];
+
             for (const prefix of prefixes) {
-                if (!isLowercase(prefix.region)) {
+                const {region} = prefix;
+
+                if (!isLowercase(region)) {
                     continue;
                 }
 
-                if (regions.indexOf(prefix.region) !== -1) {
+                if (regions.indexOf(region) !== -1) {
                     continue;
                 }
 
-                regions.push(prefix.region);
+                regions.push(region);
             }
 
             return regions;
@@ -38,17 +41,20 @@ function getRegionFactory(ipRangesUrl) {
     };
 }
 
-function latencyMeterFactory(regionEndpoint, attemptCount) {
+function latencyMeterFactory(regionEndpointTemplate, attemptCount) {
     function getTld(region) {
-        if (/^cn-/.test(region)) {
+        if (region.startsWith('cn-')) {
             return 'com.cn';
         }
+
         return 'com';
     }
 
     function getRegionEndpoint(region) {
         const tld = getTld(region);
-        return regionEndpoint.replace('%REGION%', region).replace('%TLD%', tld);
+        return regionEndpointTemplate
+            .replace('%REGION%', region)
+            .replace('%TLD%', tld);
     }
 
     async function fetchRegionEndpoint(endpointUrl) {
@@ -78,28 +84,47 @@ function latencyMeterFactory(regionEndpoint, attemptCount) {
 }
 
 function resultTableFactory(resultsElement) {
-    resultsElement.innerHTML = '';
+    function resetTable() {
+        resultsElement.innerHTML = '';
 
-    const tableElement = document.createElement('table');
-    resultsElement.appendChild(tableElement);
+        const tableElement = document.createElement('table');
+        resultsElement.appendChild(tableElement);
 
-    const headRow = document.createElement('tr');
-    tableElement.appendChild(headRow);
+        return tableElement;
+    }
 
-    const thRegion = document.createElement('th');
-    headRow.appendChild(thRegion);
-    thRegion.innerText = 'Region';
+    function getPortionByMilliseconds(ms) {
+        const fullWidth = 1000;
 
-    const thLatency = document.createElement('th');
-    headRow.appendChild(thLatency);
-    thLatency.innerText = 'Latency';
+        if (ms > fullWidth) {
+            return 1;
+        }
 
-    const loaderElement = document.createElement('div');
-    resultsElement.appendChild(loaderElement);
-    loaderElement.className = 'loader';
+        return ms / fullWidth;
+    }
+
+    let tableElement = undefined;
 
     return {
-        addResult(region, latency) {
+        prepareTable() {
+            tableElement = resetTable();
+
+            const headRow = document.createElement('tr');
+            tableElement.appendChild(headRow);
+
+            const thRegion = document.createElement('th');
+            headRow.appendChild(thRegion);
+            thRegion.innerText = 'Region';
+
+            const thLatency = document.createElement('th');
+            headRow.appendChild(thLatency);
+            thLatency.innerText = 'Latency';
+
+            const thBar = document.createElement('th');
+            headRow.appendChild(thBar);
+        },
+
+        addRegion(region) {
             const regionRow = document.createElement('tr');
             tableElement.appendChild(regionRow);
 
@@ -111,48 +136,68 @@ function resultTableFactory(resultsElement) {
             regionRow.appendChild(tdLatency);
             tdLatency.className = 'latency';
 
-            if (latency !== -1) {
-                tdLatency.innerText = `${Math.round(latency)} ms`;
-            } else {
-                tdLatency.innerText = 'unreachable';
-            }
-        },
+            const loaderElement = document.createElement('div');
+            tdLatency.appendChild(loaderElement);
+            loaderElement.className = 'loader';
 
-        finishResults() {
-            loaderElement.parentElement.removeChild(loaderElement);
+            const tdBar = document.createElement('td');
+            regionRow.appendChild(tdBar);
+            tdBar.className = 'bar';
+
+            return {
+                setLatency(latency) {
+                    if (latency > 0) {
+                        tdLatency.innerText = `${Math.round(latency)} ms`;
+                    } else {
+                        tdLatency.innerText = 'error';
+                    }
+
+                    const portion = document.createElement('div');
+                    tdBar.appendChild(portion);
+                    portion.className = 'portion';
+                    portion.innerHTML = '&nbsp;';
+
+                    const portionWidth = Math.round(getPortionByMilliseconds(latency) * 100);
+                    portion.style.width = `${portionWidth}%`;
+                }
+            };
         },
     };
 }
 
 async function startTest() {
     const {getRegions} = getRegionFactory(IP_RANGES_URL);
-    const regions = await getRegions();
+    let regions = [];
 
-    if (!regions) {
-        console.error('Unable to gather region identifiers');
+    try {
+        regions = await getRegions();
+    } catch (e) {
+        console.error('Unable to gather region identifiers', e);
         return;
     }
 
     console.log('Region identifiers', regions);
 
-    const resultsElement = document.querySelector('#results');
-    const {addResult, finishResults} = resultTableFactory(resultsElement);
+    const {measureLatencyMilliseconds} = latencyMeterFactory(REGION_ENDPOINT_TEMPLATE, 2);
 
-    const {measureLatencyMilliseconds} = latencyMeterFactory(REGION_ENDPOINT, 2);
+    const resultsElement = document.querySelector('#results');
+    const {prepareTable, addRegion} = resultTableFactory(resultsElement);
+
+    prepareTable();
 
     for (const region of regions.sort()) {
+        const {setLatency} = addRegion(region);
+        let latency = -1;
+
         try {
-            const latency = await measureLatencyMilliseconds(region);
-
+            latency = await measureLatencyMilliseconds(region);
             console.log(region, latency);
-            addResult(region, latency);
         } catch (e) {
-            console.error('Unable to reach region endpoint', region);
-            addResult(region, -1);
+            console.error('Unable to reach region endpoint', region, e);
         }
-    }
 
-    finishResults();
+        setLatency(latency);
+    }
 }
 
 document.querySelector('#start-test').onclick = startTest;
