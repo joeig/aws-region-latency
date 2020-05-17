@@ -25,6 +25,10 @@ function getRegionFactory(ipRangesUrl) {
             for (const prefix of prefixes) {
                 const {region} = prefix;
 
+                if (region === '') {
+                    continue;
+                }
+
                 if (!isLowercase(region)) {
                     continue;
                 }
@@ -41,7 +45,7 @@ function getRegionFactory(ipRangesUrl) {
     };
 }
 
-function latencyMeterFactory(regionEndpointTemplate, attemptCount) {
+function latencyMeterFactory(regionEndpointTemplate) {
     function getTld(region) {
         if (region.startsWith('cn-')) {
             return 'com.cn';
@@ -52,6 +56,7 @@ function latencyMeterFactory(regionEndpointTemplate, attemptCount) {
 
     function getRegionEndpoint(region) {
         const tld = getTld(region);
+
         return regionEndpointTemplate
             .replace('%REGION%', region)
             .replace('%TLD%', tld);
@@ -64,21 +69,14 @@ function latencyMeterFactory(regionEndpointTemplate, attemptCount) {
     async function measureMilliseconds(endpointUrl) {
         const start = window.performance.now();
         await fetchRegionEndpoint(endpointUrl);
-        const finish = window.performance.now();
 
-        return finish - start;
+        return window.performance.now() - start;
     }
 
     return {
         async measureLatencyMilliseconds(region) {
             const endpointUrl = getRegionEndpoint(region);
-            const attempts = [];
-
-            for (let i = 0; i < attemptCount; i++) {
-                attempts.push(await measureMilliseconds(endpointUrl));
-            }
-
-            return Math.min(...attempts);
+            return measureMilliseconds(endpointUrl);
         }
     };
 }
@@ -94,13 +92,13 @@ function resultTableFactory(resultsElement) {
     }
 
     function getPortionByMilliseconds(ms) {
-        const fullWidth = 1000;
+        const fullWidthMilliseconds = 1000;
 
-        if (ms > fullWidth) {
+        if (ms > fullWidthMilliseconds) {
             return 1;
         }
 
-        return ms / fullWidth;
+        return ms / fullWidthMilliseconds;
     }
 
     let tableElement = undefined;
@@ -178,7 +176,7 @@ async function startTest() {
 
     console.log('Region identifiers', regions);
 
-    const {measureLatencyMilliseconds} = latencyMeterFactory(REGION_ENDPOINT_TEMPLATE, 2);
+    const {measureLatencyMilliseconds} = latencyMeterFactory(REGION_ENDPOINT_TEMPLATE);
 
     const resultsElement = document.querySelector('#results');
     const {prepareTable, addRegion} = resultTableFactory(resultsElement);
@@ -186,17 +184,25 @@ async function startTest() {
     prepareTable();
 
     for (const region of regions.sort()) {
-        const {setLatency} = addRegion(region);
-        let latency = -1;
+        for (let i = 0; i < 2; i++) {
+            let regionName = region;
 
-        try {
-            latency = await measureLatencyMilliseconds(region);
-            console.log(region, latency);
-        } catch (e) {
-            console.error('Unable to reach region endpoint', region, e);
+            if (i > 0) {
+                regionName = '';
+            }
+
+            const {setLatency} = addRegion(regionName);
+            let latency = -1;
+
+            try {
+                latency = await measureLatencyMilliseconds(region);
+                console.log(region, latency);
+            } catch (e) {
+                console.error('Unable to reach region endpoint', region, e);
+            }
+
+            setLatency(latency);
         }
-
-        setLatency(latency);
     }
 }
 

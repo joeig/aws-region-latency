@@ -1,28 +1,32 @@
 <!doctype html>
 <html lang="en">
-
 <head>
-  <meta charset="utf-8">
-  <title>Region Latency Meter</title>
-  <link rel="stylesheet" type="text/css" href="main.css">
-</head>
 
+    <meta charset="utf-8">
+    <title>Region Latency Meter</title>
+    <link rel="stylesheet" type="text/css" href="main.css">
+
+</head>
 <body>
 
 <h1>Region Latency Meter</h1>
 
 <p>
-  This service measures the HTTPS latency from your browser to AWS regions.
-  Therefore, it requests the regional DynamoDB ping endpoints twice and displays the best measured latency.
+    This service measures the HTTPS latency from your browser to AWS regions, by requesting regional DynamoDB endpoints.
 </p>
 
-<button id="start-test">Measure latency to all regions</button>
+<p>
+    All test requests are performed twice, in order to demonstrate potential differences between the initial request and
+    the second request.
+    Subsequent requests can potentially benefit from established TCP and TLS sessions, thus have reduced network
+    overhead.
+</p>
 
-<div id="results">
-</div>
+<button id="start-test">Start latency meter</button>
+
+<div id="results"></div>
 
 <script src="main.js"></script>
 
 </body>
-
 </html>
