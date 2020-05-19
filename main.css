@@ -17,12 +17,13 @@ body {
     padding: 0.5em;
 }
 
+td.attempt,
 td.latency {
     text-align: right;
 }
 
 #results table td.bar {
-    width: 20em;
+    width: 30em;
 }
 
 td.bar .portion {
@@ -35,6 +36,7 @@ td.bar .portion {
     border-radius: 50%;
     width: 0.5em;
     height: 0.5em;
+    margin: auto auto;
     animation: spin 0.5s linear infinite;
 }
 
@@ -46,4 +48,12 @@ td.bar .portion {
     100% {
         transform: rotate(360deg);
     }
+}
+
+span.left {
+    float: left;
+}
+
+span.right {
+    float: right;
 }

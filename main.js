@@ -81,7 +81,7 @@ function latencyMeterFactory(regionEndpointTemplate) {
     };
 }
 
-function resultTableFactory(resultsElement) {
+function resultTableFactory(resultsElement, fullWidthMilliseconds = 2000) {
     function resetTable() {
         resultsElement.innerHTML = '';
 
@@ -92,8 +92,6 @@ function resultTableFactory(resultsElement) {
     }
 
     function getPortionByMilliseconds(ms) {
-        const fullWidthMilliseconds = 1000;
-
         if (ms > fullWidthMilliseconds) {
             return 1;
         }
@@ -114,21 +112,31 @@ function resultTableFactory(resultsElement) {
             headRow.appendChild(thRegion);
             thRegion.innerText = 'Region';
 
+            const thAttempt = document.createElement('th');
+            headRow.appendChild(thAttempt);
+            thAttempt.innerText = 'Attempt';
+
             const thLatency = document.createElement('th');
             headRow.appendChild(thLatency);
             thLatency.innerText = 'Latency';
 
             const thBar = document.createElement('th');
             headRow.appendChild(thBar);
+            thBar.innerHTML = `<span class="left">0 ms</span><span class="right">${fullWidthMilliseconds}+ ms</span>`;
         },
 
-        addRegion(region) {
+        addRegion(region, attempt) {
             const regionRow = document.createElement('tr');
             tableElement.appendChild(regionRow);
 
             const tdRegion = document.createElement('td');
             regionRow.appendChild(tdRegion);
             tdRegion.innerText = region;
+
+            const tdAttempt = document.createElement('td');
+            regionRow.appendChild(tdAttempt);
+            tdAttempt.className = 'attempt';
+            tdAttempt.innerText = attempt;
 
             const tdLatency = document.createElement('td');
             regionRow.appendChild(tdLatency);
@@ -184,19 +192,21 @@ async function startTest() {
     prepareTable();
 
     for (const region of regions.sort()) {
-        for (let i = 0; i < 2; i++) {
+        const totalAttempts = 2;
+
+        for (let i = 0; i < totalAttempts; i++) {
             let regionName = region;
 
             if (i > 0) {
                 regionName = '';
             }
 
-            const {setLatency} = addRegion(regionName);
+            const {setLatency} = addRegion(regionName, i + 1);
             let latency = -1;
 
             try {
                 latency = await measureLatencyMilliseconds(region);
-                console.log(region, latency);
+                console.log('Latency to region', region, latency, 'attempt', i);
             } catch (e) {
                 console.error('Unable to reach region endpoint', region, e);
             }
