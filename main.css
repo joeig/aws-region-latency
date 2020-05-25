@@ -57,3 +57,7 @@ span.left {
 span.right {
     float: right;
 }
+
+button {
+    font-weight: bold;
+}
