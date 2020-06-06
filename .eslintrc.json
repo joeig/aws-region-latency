@@ -1,0 +1,36 @@
+{
+    "extends": [
+        "joyn",
+        "joyn/presets/node"
+    ],
+    "overrides": [
+        {
+            "files": [
+                "**/*.ts"
+            ],
+            "extends": [
+                "joyn/presets/typescript"
+            ],
+            "parserOptions": {
+                "project": "tsconfig.json"
+            },
+            "rules": {
+                "no-continue": "off"
+            },
+            "settings": {
+                "import/resolver": {
+                    "node": {
+                        "extensions": [
+                            ".ts"
+                        ]
+                    }
+                },
+                "import/parsers": {
+                    "@typescript-eslint/parser": [
+                        ".ts"
+                    ]
+                }
+            }
+        }
+    ]
+}
