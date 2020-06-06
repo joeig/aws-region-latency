@@ -14,15 +14,15 @@ export interface GetRegion {
     getRegions(): Promise<string[] | null>;
 }
 
-export function getRegionFactory(ipRangesUrl: string): GetRegion {
-    async function fetchIpRanges(): Promise<IpRanges> {
-        const response = await fetch(ipRangesUrl);
-        return response.json();
-    }
+async function fetchIpRanges(ipRangesUrl: string): Promise<IpRanges> {
+    const response = await fetch(ipRangesUrl);
+    return response.json();
+}
 
+export function getRegionFactory(ipRangesUrl: string): GetRegion {
     return {
         async getRegions(): Promise<string[] | null> {
-            const { prefixes = null } = await fetchIpRanges();
+            const { prefixes = null } = await fetchIpRanges(ipRangesUrl);
 
             if (!prefixes) {
                 return null;

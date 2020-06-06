@@ -3,6 +3,14 @@ export interface ResultTable {
     addRegion(region: string, attempt: number): { setLatency(latency: number): void };
 }
 
+function getPortionByMilliseconds(fullWidthMilliseconds: number, ms: number): number {
+    if (ms > fullWidthMilliseconds) {
+        return 1;
+    }
+
+    return ms / fullWidthMilliseconds;
+}
+
 export function resultTableFactory(resultsElement: HTMLElement, fullWidthMilliseconds = 2000): ResultTable {
     function resetTable(): HTMLTableElement {
         /* eslint no-param-reassign: 'off' */
@@ -12,14 +20,6 @@ export function resultTableFactory(resultsElement: HTMLElement, fullWidthMillise
         resultsElement.append(tableElement);
 
         return tableElement;
-    }
-
-    function getPortionByMilliseconds(ms: number): number {
-        if (ms > fullWidthMilliseconds) {
-            return 1;
-        }
-
-        return ms / fullWidthMilliseconds;
     }
 
     let tableElement: HTMLTableElement;
@@ -86,7 +86,7 @@ export function resultTableFactory(resultsElement: HTMLElement, fullWidthMillise
                     portion.className = 'portion';
                     portion.innerHTML = '&nbsp;';
 
-                    const portionWidth = Math.round(getPortionByMilliseconds(latency) * 100);
+                    const portionWidth = Math.round(getPortionByMilliseconds(fullWidthMilliseconds, latency) * 100);
                     portion.style.width = `${portionWidth}%`;
                 }
             };
