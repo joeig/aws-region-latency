@@ -16,7 +16,6 @@ jobs:
         with:
           node-version: 12.x
       - run: npm ci
-      - run: npm run eslint
       - run: npm run build
       - name: Deploy to GitHub pages
         uses: JamesIves/github-pages-deploy-action@releases/v3
