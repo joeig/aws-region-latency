@@ -31,6 +31,17 @@
                     ]
                 }
             }
+        },
+        {
+            "files": [
+                "test/*.ts"
+            ],
+            "extends": [
+                "joyn/presets/ava"
+            ],
+            "rules": {
+                "import/no-unresolved": "off"
+            }
         }
     ]
 }

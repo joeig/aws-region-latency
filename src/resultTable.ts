@@ -3,7 +3,7 @@ export interface ResultTable {
     addRegion(region: string, attempt: number): { setLatency(latency: number): void };
 }
 
-function getPortionByMilliseconds(fullWidthMilliseconds: number, ms: number): number {
+export function getPortionByMilliseconds(fullWidthMilliseconds: number, ms: number): number {
     if (ms > fullWidthMilliseconds) {
         return 1;
     }

@@ -2,7 +2,7 @@ export interface LatencyMeter {
     measureLatencyMilliseconds(region: string): Promise<number>;
 }
 
-function getTld(region: string): string {
+export function getTld(region: string): string {
     if (region.startsWith('cn-')) {
         return 'com.cn';
     }
@@ -10,7 +10,7 @@ function getTld(region: string): string {
     return 'com';
 }
 
-function getRegionEndpoint(regionEndpointTemplate: string, region: string, tld: string): string {
+export function getRegionEndpoint(regionEndpointTemplate: string, region: string, tld: string): string {
     return regionEndpointTemplate.replace('%REGION%', region).replace('%TLD%', tld);
 }
 

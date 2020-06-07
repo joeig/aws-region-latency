@@ -1,7 +1,3 @@
-function isLowercase(str: string): boolean {
-    return !/[A-Z]/.test(str);
-}
-
 export interface IpRanges {
     prefixes: [
         {
@@ -12,6 +8,10 @@ export interface IpRanges {
 
 export interface GetRegion {
     getRegions(): Promise<string[] | null>;
+}
+
+export function isLowercase(str: string): boolean {
+    return !/[A-Z]/.test(str);
 }
 
 async function fetchIpRanges(ipRangesUrl: string): Promise<IpRanges> {
