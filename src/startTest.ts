@@ -13,11 +13,13 @@ export async function startTest(): Promise<void> {
 
     try {
         const regionsResponse = await getRegions();
-        if (regionsResponse) {
-            regions = regionsResponse;
-        } else {
+
+        if (!regionsResponse) {
             console.error('No region identifiers found', regionsResponse);
+            return;
         }
+
+        regions = regionsResponse;
     } catch (error) {
         console.error('Unable to gather region identifiers', error);
         return;
