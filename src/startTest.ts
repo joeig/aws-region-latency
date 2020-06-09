@@ -3,7 +3,7 @@
 import { getRegionFactory } from './regions';
 import { latencyMeterFactory } from './latency';
 import { resultTableFactory } from './resultTable';
-import { IP_RANGES_URL, REGION_ENDPOINT_TEMPLATE } from './settings';
+import { IP_RANGES_URL, REGION_ENDPOINT_TEMPLATE } from './defaultSettings';
 import { ipRangesClientFactory } from './ipRanges';
 
 export async function startTest(): Promise<void> {
