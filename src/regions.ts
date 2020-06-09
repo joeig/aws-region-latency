@@ -4,11 +4,17 @@ export interface GetRegion {
     getRegions(): Promise<string[] | null>;
 }
 
+export interface GetRegionDependencies {
+    ipRangesClient: IpRangesClient;
+}
+
 export function isLowercase(str: string): boolean {
     return !/[A-Z]/.test(str);
 }
 
-export function getRegionFactory(ipRangesClient: IpRangesClient): GetRegion {
+export function getRegionFactory(dependencies: GetRegionDependencies): GetRegion {
+    const { ipRangesClient } = dependencies;
+
     return {
         async getRegions(): Promise<string[] | null> {
             const { prefixes = null } = await ipRangesClient.fetchIpRanges();

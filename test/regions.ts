@@ -13,8 +13,8 @@ test('isLowercase returns false if string contains at least one uppercase charac
 });
 
 test('getRegionFactory shall return regions', async (t) => {
-    const ipRangesClientMock = ipRangesClientMockFactory();
-    const { getRegions } = getRegionFactory(ipRangesClientMock);
+    const ipRangesClient = ipRangesClientMockFactory();
+    const { getRegions } = getRegionFactory({ ipRangesClient });
 
     t.deepEqual(await getRegions(), ['eu-west-1', 'cn-north-1']);
 });

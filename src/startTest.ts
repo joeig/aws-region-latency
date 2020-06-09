@@ -8,7 +8,7 @@ import { ipRangesClientFactory } from './ipRanges';
 
 export async function startTest(): Promise<void> {
     const ipRangesClient = ipRangesClientFactory(IP_RANGES_URL);
-    const { getRegions } = getRegionFactory(ipRangesClient);
+    const { getRegions } = getRegionFactory({ ipRangesClient });
     let regions: string[] = [];
 
     try {
