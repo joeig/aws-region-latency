@@ -4,9 +4,11 @@ import { getRegionFactory } from './regions';
 import { latencyMeterFactory } from './latency';
 import { resultTableFactory } from './resultTable';
 import { IP_RANGES_URL, REGION_ENDPOINT_TEMPLATE } from './settings';
+import { ipRangesClientFactory } from './ipRanges';
 
 export async function startTest(): Promise<void> {
-    const { getRegions } = getRegionFactory(IP_RANGES_URL);
+    const ipRangesClient = ipRangesClientFactory(IP_RANGES_URL);
+    const { getRegions } = getRegionFactory(ipRangesClient);
     let regions: string[] = [];
 
     try {

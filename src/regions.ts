@@ -1,10 +1,4 @@
-export interface IpRanges {
-    prefixes: [
-        {
-            region: string;
-        }
-    ];
-}
+import { IpRangesClient } from './ipRanges';
 
 export interface GetRegion {
     getRegions(): Promise<string[] | null>;
@@ -14,15 +8,10 @@ export function isLowercase(str: string): boolean {
     return !/[A-Z]/.test(str);
 }
 
-async function fetchIpRanges(ipRangesUrl: string): Promise<IpRanges> {
-    const response = await fetch(ipRangesUrl);
-    return response.json();
-}
-
-export function getRegionFactory(ipRangesUrl: string): GetRegion {
+export function getRegionFactory(ipRangesClient: IpRangesClient): GetRegion {
     return {
         async getRegions(): Promise<string[] | null> {
-            const { prefixes = null } = await fetchIpRanges(ipRangesUrl);
+            const { prefixes = null } = await ipRangesClient.fetchIpRanges();
 
             if (!prefixes) {
                 return null;
