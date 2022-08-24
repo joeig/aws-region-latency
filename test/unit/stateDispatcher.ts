@@ -11,6 +11,15 @@ test('getData() returns data added by addData()', (t) => {
     t.deepEqual(stateDispatcher.getData(), [1337]);
 });
 
+test('resetData() resets state', (t) => {
+    const stateDispatcher = newStateDispatcher<number>();
+    stateDispatcher.addData(1337);
+
+    stateDispatcher.resetData();
+
+    t.deepEqual(stateDispatcher.getData(), []);
+});
+
 test('onAddData() calls all dispatchers when new data is added', (t) => {
     const dispatcher1 = spy();
     const dispatcher2 = spy();
