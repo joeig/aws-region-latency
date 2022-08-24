@@ -2,6 +2,7 @@
 
 const path = require('node:path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { LicenseWebpackPlugin } = require('license-webpack-plugin');
 
 module.exports = {
     mode: 'production',
@@ -35,6 +36,9 @@ module.exports = {
                 viewport: 'width=device-width, initial-scale=1',
                 robots: 'noindex'
             }
+        }),
+        new LicenseWebpackPlugin({
+            outputFilename: 'licenses.txt'
         })
     ]
 };
