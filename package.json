@@ -67,9 +67,9 @@
             "./src"
         ],
         "check-coverage": true,
-        "statements": 58,
-        "branches": 90,
-        "functions": 86,
-        "lines": 58
+        "statements": 57,
+        "branches": 93,
+        "functions": 90,
+        "lines": 57
     }
 }
