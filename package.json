@@ -41,6 +41,7 @@
         "eslint-plugin-promise": "^6.0.0",
         "eslint-plugin-unicorn": "^43.0.2",
         "html-webpack-plugin": "^5.5.0",
+        "license-webpack-plugin": "^4.0.2",
         "prettier": "^2.7.1",
         "sinon": "^14.0.0",
         "style-loader": "^3.3.1",
