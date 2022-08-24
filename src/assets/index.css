@@ -6,7 +6,13 @@ body {
     margin-top: 1em;
 }
 
+#results .summary {
+    font-weight: bold;
+    color: #03A9F4;
+}
+
 #results table {
+    margin-top: 1em;
     border-collapse: collapse;
     border: 0.1em solid black;
 }

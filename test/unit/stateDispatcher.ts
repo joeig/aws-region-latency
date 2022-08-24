@@ -3,6 +3,14 @@ import { assert, spy } from 'sinon';
 import { DataPoint } from '../../src/dataPoint';
 import { newStateDispatcher } from '../../src/stateDispatcher';
 
+test('getData() returns data added by addData()', (t) => {
+    const stateDispatcher = newStateDispatcher<number>();
+
+    stateDispatcher.addData(1337);
+
+    t.deepEqual(stateDispatcher.getData(), [1337]);
+});
+
 test('onAddData() calls all dispatchers when new data is added', (t) => {
     const dispatcher1 = spy();
     const dispatcher2 = spy();

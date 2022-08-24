@@ -7,7 +7,7 @@ import { newLatencyMeter } from './latencyMeter';
 import { newResultTable } from './resultTable';
 import { newRegionTester } from './regionTester';
 import { newStateDispatcher } from './stateDispatcher';
-import { DataPoint } from './dataPoint';
+import { DataPoint, getBestLatencyMs } from './dataPoint';
 import { newLoadingIndicator } from './loadingIndicator';
 
 const startTest = async (resultsElement: HTMLDivElement): Promise<void> => {
@@ -34,7 +34,11 @@ const startTest = async (resultsElement: HTMLDivElement): Promise<void> => {
     );
 
     latencyStateDispatcher.resetData();
+
     await testRegions();
+
+    const bestDataPoint = getBestLatencyMs(latencyStateDispatcher.getData());
+    resultTable.updateSummary(bestDataPoint);
 };
 
 const spinnerElement = document.querySelector('#loader') as HTMLDivElement;
