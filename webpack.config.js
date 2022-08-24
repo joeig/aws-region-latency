@@ -1,27 +1,24 @@
 'use strict';
 
-const path = require('path');
+const path = require('node:path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     mode: 'production',
     devtool: 'source-map',
     resolve: {
-        extensions: ['.ts']
+        extensions: ['.ts', '.js']
     },
     entry: './src/index.ts',
     output: {
-        path: path.resolve(__dirname, './dist'),
+        path: path.resolve('./dist'),
         filename: 'index.js'
     },
     module: {
         rules: [
             {
                 test: /\.ts$/,
-                loader: 'ts-loader',
-                options: {
-                    projectReferences: true
-                }
+                loader: 'ts-loader'
             },
             {
                 test: /\.css$/,

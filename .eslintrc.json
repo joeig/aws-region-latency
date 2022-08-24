@@ -1,6 +1,7 @@
 {
     "extends": [
         "joyn",
+        "joyn/presets/browser",
         "joyn/presets/node"
     ],
     "overrides": [
@@ -14,16 +15,15 @@
             "parserOptions": {
                 "project": "tsconfig.json"
             },
-            "rules": {
-                "no-continue": "off"
-            },
             "settings": {
                 "import/resolver": {
                     "node": {
                         "extensions": [
-                            ".ts"
+                            ".ts",
+                            ".js"
                         ]
-                    }
+                    },
+                    "typescript": {}
                 },
                 "import/parsers": {
                     "@typescript-eslint/parser": [
@@ -34,14 +34,19 @@
         },
         {
             "files": [
-                "test/*.ts"
+                "test/unit/*.ts"
             ],
             "extends": [
                 "joyn/presets/ava"
+            ]
+        },
+        {
+            "files": [
+                "**/*.js"
             ],
-            "rules": {
-                "import/no-unresolved": "off"
-            }
+            "extends": [
+                "joyn/presets/commonjs"
+            ]
         }
     ]
 }
