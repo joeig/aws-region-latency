@@ -25,6 +25,7 @@ export const newStateDispatcher = <T>(): StateDispatcher<T> => {
             return state;
         },
         resetData(): void {
+            state.length = 0;
             resetDataDispatchers.forEach((dispatcher) => {
                 dispatcher();
             });
