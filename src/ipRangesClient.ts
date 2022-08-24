@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { Milliseconds } from './milliseconds';
 
 const prefixSchema = z.object({
     region: z.string().max(25)
@@ -23,14 +24,14 @@ interface IpRangesClientDependencies {
 export const newIpRangesClient = (
     dependencies: IpRangesClientDependencies,
     ipRangesUrl: string,
-    fetchTimeoutMs: number
+    fetchTimeout: Milliseconds
 ): IpRangesClient => {
     return {
         async fetch(): Promise<IpRanges> {
             const abortController = new AbortController();
             const abortTimeout = setTimeout(() => {
                 abortController.abort();
-            }, fetchTimeoutMs);
+            }, fetchTimeout);
             const response = await dependencies.fetch(ipRangesUrl, { signal: abortController.signal });
             clearTimeout(abortTimeout);
             const maybeIpRanges = (await response.json()) as unknown;

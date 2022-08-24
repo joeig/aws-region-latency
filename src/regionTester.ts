@@ -1,8 +1,7 @@
 import { Mutex } from 'async-mutex';
 import { IpRangesManager } from './ipRangesManager';
 import { LatencyMeter } from './latencyMeter';
-import { StateDispatcher } from './stateDispatcher';
-import { DataPoint } from './dataPoint';
+import { DataPoint, invalidLatency } from './dataPoint';
 
 interface RegionTester {
     testRegions(): Promise<void>;
@@ -11,19 +10,19 @@ interface RegionTester {
 export interface RegionTesterDependencies {
     ipRangesManager: IpRangesManager;
     latencyMeter: LatencyMeter;
-    stateDispatcher: StateDispatcher<DataPoint>;
+    onAddData(data: DataPoint): void;
 }
 
 export const newRegionTester = (
-    { ipRangesManager, latencyMeter, stateDispatcher }: RegionTesterDependencies,
+    { ipRangesManager, latencyMeter, onAddData }: RegionTesterDependencies,
     maxRegionsToTest: number
 ): RegionTester => {
     const testRegion = async (region: string, attempt: number): Promise<void> => {
         try {
-            const latencyMs = await latencyMeter.measureMs(region);
-            stateDispatcher.addData({ region, attempt, latencyMs });
+            const latency = await latencyMeter.measure(region);
+            onAddData({ region, attempt, latency });
         } catch {
-            stateDispatcher.addData({ region, attempt, latencyMs: -1 });
+            onAddData({ region, attempt, latency: invalidLatency });
         }
     };
 

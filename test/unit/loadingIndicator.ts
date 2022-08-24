@@ -1,12 +1,12 @@
 import test from 'ava';
-import { newLoadingIndicator } from '../../src/loadingIndicator';
+import { newLoadingIndicatorView } from '../../src/loadingIndicator';
 
 test('setLoading() shows the spinner element', (t) => {
     const spinnerElement = { style: { display: 'none' } } as unknown as HTMLDivElement;
     const buttonElement = { disabled: false } as unknown as HTMLButtonElement;
-    const loadingIndicator = newLoadingIndicator(spinnerElement, buttonElement);
+    const { setLoading } = newLoadingIndicatorView(spinnerElement, buttonElement);
 
-    loadingIndicator.setLoading();
+    setLoading();
 
     t.is(spinnerElement.style.display, 'block');
 });
@@ -14,9 +14,9 @@ test('setLoading() shows the spinner element', (t) => {
 test('setLoading() disables the button element', (t) => {
     const spinnerElement = { style: { display: 'none' } } as unknown as HTMLDivElement;
     const buttonElement = { disabled: false } as unknown as HTMLButtonElement;
-    const loadingIndicator = newLoadingIndicator(spinnerElement, buttonElement);
+    const { setLoading } = newLoadingIndicatorView(spinnerElement, buttonElement);
 
-    loadingIndicator.setLoading();
+    setLoading();
 
     t.true(buttonElement.disabled);
 });
@@ -24,9 +24,9 @@ test('setLoading() disables the button element', (t) => {
 test('setFinished() hides the spinner element', (t) => {
     const spinnerElement = { style: { display: 'none' } } as unknown as HTMLDivElement;
     const buttonElement = { disabled: false } as unknown as HTMLButtonElement;
-    const loadingIndicator = newLoadingIndicator(spinnerElement, buttonElement);
+    const { setFinished } = newLoadingIndicatorView(spinnerElement, buttonElement);
 
-    loadingIndicator.setFinished();
+    setFinished();
 
     t.is(spinnerElement.style.display, 'none');
 });
@@ -34,9 +34,9 @@ test('setFinished() hides the spinner element', (t) => {
 test('setFinished() enables the button element', (t) => {
     const spinnerElement = { style: { display: 'none' } } as unknown as HTMLDivElement;
     const buttonElement = { disabled: false } as unknown as HTMLButtonElement;
-    const loadingIndicator = newLoadingIndicator(spinnerElement, buttonElement);
+    const { setFinished } = newLoadingIndicatorView(spinnerElement, buttonElement);
 
-    loadingIndicator.setFinished();
+    setFinished();
 
     t.false(buttonElement.disabled);
 });
