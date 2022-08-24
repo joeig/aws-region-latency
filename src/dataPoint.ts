@@ -1,11 +1,15 @@
+import { Milliseconds } from './milliseconds';
+
 export interface DataPoint {
     region: string;
     attempt: number;
-    latencyMs: number;
+    latency: Milliseconds;
 }
 
-const isValidLatencyMs = ({ latencyMs }: DataPoint): boolean => latencyMs >= 0;
-const byLatencyMs = (a: DataPoint, b: DataPoint): number => a.latencyMs - b.latencyMs;
+const isValidLatency = ({ latency }: DataPoint): boolean => latency >= 0;
+const byLatency = (a: DataPoint, b: DataPoint): Milliseconds => a.latency - b.latency;
 
-export const getBestLatencyMs = (dataPoints: DataPoint[]): DataPoint =>
-    dataPoints.filter(isValidLatencyMs).sort(byLatencyMs)[0];
+export const getByBestLatency = (dataPoints: DataPoint[]): DataPoint =>
+    dataPoints.filter(isValidLatency).sort(byLatency)[0];
+
+export const invalidLatency: Milliseconds = -1;

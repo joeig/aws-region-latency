@@ -1,5 +1,7 @@
+import { Milliseconds } from './milliseconds';
+
 export interface LatencyMeter {
-    measureMs(region: string): Promise<number>;
+    measure(region: string): Promise<Milliseconds>;
 }
 
 interface LatencyMeterDependencies {
@@ -10,7 +12,7 @@ interface LatencyMeterDependencies {
 export const newLatencyMeter = (
     dependencies: LatencyMeterDependencies,
     regionEndpointTemplate: string,
-    fetchTimeoutMs: number
+    fetchTimeout: Milliseconds
 ): LatencyMeter => {
     const getTld = (region: string): string => (region.startsWith('cn-') ? 'com.cn' : 'com');
     const regionEndpointFormatter = (region: string): string =>
@@ -18,10 +20,10 @@ export const newLatencyMeter = (
     const abortController = new AbortController();
     const abortTimeout = setTimeout(() => {
         abortController.abort();
-    }, fetchTimeoutMs);
+    }, fetchTimeout);
     const fetchRegionEndpoint = async (endpointUrl: string): Promise<Response> =>
         dependencies.fetch(endpointUrl, { redirect: 'manual', cache: 'no-store', signal: abortController.signal });
-    const measureMs = async (endpointUrl: string): Promise<number> => {
+    const measure = async (endpointUrl: string): Promise<Milliseconds> => {
         const start = dependencies.performance.now();
         await fetchRegionEndpoint(endpointUrl);
         return dependencies.performance.now() - start;
@@ -29,8 +31,8 @@ export const newLatencyMeter = (
     clearTimeout(abortTimeout);
 
     return {
-        async measureMs(region: string): Promise<number> {
-            return measureMs(regionEndpointFormatter(region));
+        async measure(region: string): Promise<number> {
+            return measure(regionEndpointFormatter(region));
         }
     };
 };

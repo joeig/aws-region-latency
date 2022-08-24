@@ -27,10 +27,10 @@ test('onAddData() calls all dispatchers when new data is added', (t) => {
     stateDispatcher.onAddData(dispatcher1);
     stateDispatcher.onAddData(dispatcher2);
 
-    stateDispatcher.addData({ region: 'the region', attempt: 5, latencyMs: 42 });
+    stateDispatcher.addData({ region: 'the region', attempt: 5, latency: 42 });
 
-    assert.calledWith(dispatcher1, { region: 'the region', attempt: 5, latencyMs: 42 });
-    assert.calledWith(dispatcher2, { region: 'the region', attempt: 5, latencyMs: 42 });
+    assert.calledWith(dispatcher1, { region: 'the region', attempt: 5, latency: 42 });
+    assert.calledWith(dispatcher2, { region: 'the region', attempt: 5, latency: 42 });
     t.pass();
 });
 

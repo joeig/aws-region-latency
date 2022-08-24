@@ -1,12 +1,12 @@
-interface LoadingIndicator {
+interface LoadingIndicatorView {
     setLoading(): void;
     setFinished(): void;
 }
 
-export const newLoadingIndicator = (
+export const newLoadingIndicatorView = (
     spinnerElement: HTMLDivElement,
     buttonElement: HTMLButtonElement
-): LoadingIndicator => {
+): LoadingIndicatorView => {
     return {
         setLoading() {
             // eslint-disable-next-line no-param-reassign
