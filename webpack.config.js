@@ -13,7 +13,10 @@ module.exports = {
     entry: './src/index.ts',
     output: {
         path: path.resolve('./dist'),
-        filename: 'index.js'
+        filename: '[name].[contenthash].js'
+    },
+    optimization: {
+        runtimeChunk: 'single'
     },
     module: {
         rules: [
