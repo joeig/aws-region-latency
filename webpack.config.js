@@ -2,6 +2,7 @@
 
 const path = require('node:path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { LicenseWebpackPlugin } = require('license-webpack-plugin');
 
 module.exports = {
@@ -25,8 +26,8 @@ module.exports = {
                 loader: 'ts-loader'
             },
             {
-                test: /\.css$/,
-                use: ['style-loader', 'css-loader']
+                test: /\.css$/i,
+                use: [MiniCssExtractPlugin.loader, 'css-loader']
             }
         ]
     },
@@ -39,6 +40,9 @@ module.exports = {
                 viewport: 'width=device-width, initial-scale=1',
                 robots: 'noindex'
             }
+        }),
+        new MiniCssExtractPlugin({
+            filename: '[name].[contenthash].css'
         }),
         new LicenseWebpackPlugin({
             outputFilename: 'licenses.txt'
