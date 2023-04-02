@@ -43,7 +43,7 @@
         "html-webpack-plugin": "^5.5.0",
         "license-webpack-plugin": "^4.0.2",
         "mini-css-extract-plugin": "^2.6.1",
-        "prettier": "^2.7.1",
+        "prettier": "^2.8.7",
         "sinon": "^14.0.0",
         "ts-loader": "^9.4.2",
         "ts-node": "^10.9.1",
