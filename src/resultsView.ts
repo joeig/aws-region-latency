@@ -8,7 +8,8 @@ export interface ResultsView {
 }
 
 export const newResultsView = (
-    resultsElement: Readonly<HTMLDivElement>,
+    // eslint-disable-next-line functional/prefer-immutable-types
+    resultsElement: HTMLDivElement,
     fullWidth: Milliseconds = 2000
 ): ResultsView => {
     const resetResults = (): void => {
