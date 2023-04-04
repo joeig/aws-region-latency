@@ -8,10 +8,10 @@ interface IpRangesManagerDependencies {
     ipRangesClient: IpRangesClient;
 }
 
-export const newIpRangesManager = ({ ipRangesClient }: IpRangesManagerDependencies): IpRangesManager => {
-    const extractRegion = ({ region }: Prefix): string => region;
+export const newIpRangesManager = ({ ipRangesClient }: Readonly<IpRangesManagerDependencies>): IpRangesManager => {
+    const extractRegion = ({ region }: Readonly<Prefix>): string => region;
     const alphabetically = (valueA: string, valueB: string): number => valueA.localeCompare(valueB);
-    const isUnique = (value: string, position: number, sortedValues: string[]): boolean =>
+    const isUnique = (value: string, position: number, sortedValues: readonly string[]): boolean =>
         !position || value !== sortedValues[position - 1];
     const isNotEmpty = (value: string): boolean => value !== '';
     const isLowercase = (value: string): boolean => !/[A-Z]/.test(value);

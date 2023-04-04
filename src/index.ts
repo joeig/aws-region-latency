@@ -10,7 +10,7 @@ import { newStateDispatcher } from './stateDispatcher';
 import { DataPoint, getByBestLatency } from './dataPoint';
 import { newLoadingIndicatorView } from './loadingIndicator';
 
-const startTest = async (resultsElement: HTMLDivElement): Promise<void> => {
+const startTest = async (resultsElement: Readonly<HTMLDivElement>): Promise<void> => {
     const resultsView = newResultsView(resultsElement);
     const latencyStateDispatcher = newStateDispatcher<DataPoint>();
     latencyStateDispatcher.onAddData(resultsView.addRegion);
@@ -50,7 +50,7 @@ startTestButtonElement.addEventListener('click', () => {
     // eslint-disable-next-line promise/catch-or-return
     startTest(resultsElement)
         // eslint-disable-next-line promise/prefer-await-to-then
-        .catch((error: Error) => {
+        .catch((error: Readonly<Error>) => {
             errorElement.style.display = 'block';
             // eslint-disable-next-line no-console
             console.error(error);

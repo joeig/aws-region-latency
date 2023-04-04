@@ -10,7 +10,7 @@ interface LatencyMeterDependencies {
 }
 
 export const newLatencyMeter = (
-    dependencies: LatencyMeterDependencies,
+    dependencies: Readonly<LatencyMeterDependencies>,
     regionEndpointTemplate: string,
     fetchTimeout: Milliseconds
 ): LatencyMeter => {

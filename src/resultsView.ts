@@ -3,11 +3,14 @@ import { Milliseconds } from './milliseconds';
 
 export interface ResultsView {
     initializeEmptyResult(): void;
-    updateSummary(data: DataPoint): void;
-    addRegion(data: DataPoint): void;
+    updateSummary(data: Readonly<DataPoint>): void;
+    addRegion(data: Readonly<DataPoint>): void;
 }
 
-export const newResultsView = (resultsElement: HTMLDivElement, fullWidth: Milliseconds = 2000): ResultsView => {
+export const newResultsView = (
+    resultsElement: Readonly<HTMLDivElement>,
+    fullWidth: Milliseconds = 2000
+): ResultsView => {
     const resetResults = (): void => {
         // eslint-disable-next-line no-param-reassign
         resultsElement.innerHTML = '';
@@ -59,11 +62,11 @@ export const newResultsView = (resultsElement: HTMLDivElement, fullWidth: Millis
             headRow.append(thBar);
             thBar.innerHTML = `<span class="left">0 ms</span><span class="right">${fullWidth}+ ms</span>`;
         },
-        updateSummary({ region, latency }: DataPoint): void {
+        updateSummary({ region, latency }: Readonly<DataPoint>): void {
             summaryElement.textContent = `The region with the best result is ${region} (${Math.round(latency)} ms).`;
         },
         // eslint-disable-next-line max-statements
-        addRegion({ region, attempt, latency }: DataPoint): void {
+        addRegion({ region, attempt, latency }: Readonly<DataPoint>): void {
             const regionRow = document.createElement('tr');
             tableElement.append(regionRow);
 

@@ -22,7 +22,7 @@ interface IpRangesClientDependencies {
 }
 
 export const newIpRangesClient = (
-    dependencies: IpRangesClientDependencies,
+    dependencies: Readonly<IpRangesClientDependencies>,
     ipRangesUrl: string,
     fetchTimeout: Milliseconds
 ): IpRangesClient => {

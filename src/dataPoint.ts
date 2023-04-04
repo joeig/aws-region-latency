@@ -6,10 +6,10 @@ export interface DataPoint {
     latency: Milliseconds;
 }
 
-const isValidLatency = ({ latency }: DataPoint): boolean => latency >= 0;
-const byLatency = (a: DataPoint, b: DataPoint): Milliseconds => a.latency - b.latency;
+const isValidLatency = ({ latency }: Readonly<DataPoint>): boolean => latency >= 0;
+const byLatency = (a: Readonly<DataPoint>, b: Readonly<DataPoint>): Milliseconds => a.latency - b.latency;
 
-export const getByBestLatency = (dataPoints: DataPoint[]): DataPoint =>
+export const getByBestLatency = (dataPoints: readonly DataPoint[]): DataPoint =>
     dataPoints.filter(isValidLatency).sort(byLatency)[0];
 
 export const invalidLatency: Milliseconds = -1;
