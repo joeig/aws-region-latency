@@ -10,11 +10,11 @@ interface RegionTester {
 export interface RegionTesterDependencies {
     ipRangesManager: IpRangesManager;
     latencyMeter: LatencyMeter;
-    onAddData(data: DataPoint): void;
+    onAddData(data: Readonly<DataPoint>): void;
 }
 
 export const newRegionTester = (
-    { ipRangesManager, latencyMeter, onAddData }: RegionTesterDependencies,
+    { ipRangesManager, latencyMeter, onAddData }: Readonly<RegionTesterDependencies>,
     maxRegionsToTest: number
 ): RegionTester => {
     const testRegion = async (region: string, attempt: number): Promise<void> => {

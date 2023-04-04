@@ -4,7 +4,8 @@ interface LoadingIndicatorView {
 }
 
 export const newLoadingIndicatorView = (
-    spinnerElement: HTMLDivElement,
+    spinnerElement: Readonly<HTMLDivElement>,
+    // eslint-disable-next-line functional/prefer-immutable-types
     buttonElement: HTMLButtonElement
 ): LoadingIndicatorView => {
     return {
