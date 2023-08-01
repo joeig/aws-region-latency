@@ -25,7 +25,7 @@
         "@typescript-eslint/eslint-plugin": "6.1.0",
         "@typescript-eslint/parser": "6.1.0",
         "ava": "5.3.1",
-        "c8": "8.0.0",
+        "c8": "8.0.1",
         "css-loader": "6.8.1",
         "eslint": "8.45.0",
         "eslint-config-joyn": "2.2.0",
