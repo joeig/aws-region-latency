@@ -27,7 +27,7 @@
         "ava": "5.3.1",
         "c8": "8.0.0",
         "css-loader": "6.8.1",
-        "eslint": "8.45.0",
+        "eslint": "8.46.0",
         "eslint-config-joyn": "2.2.0",
         "eslint-import-resolver-typescript": "3.5.5",
         "eslint-plugin-array-func": "3.1.8",
