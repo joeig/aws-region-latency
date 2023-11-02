@@ -1,9 +1,10 @@
 {
     "description": "This service measures the HTTPS latency from your browser to AWS regions.",
-    "main": "./src/index.ts",
+    "main": "src/main.ts",
     "scripts": {
-        "build": "webpack",
-        "build:watch": "webpack --watch",
+        "dev": "vite",
+        "build": "tsc && vite build",
+        "preview": "vite preview",
         "eslint": "eslint . --ext '.ts,.js'",
         "eslint:fix": "npm run eslint -- --fix",
         "test": "c8 ava"
@@ -26,7 +27,6 @@
         "@typescript-eslint/parser": "6.9.1",
         "ava": "5.3.1",
         "c8": "8.0.1",
-        "css-loader": "6.8.1",
         "eslint": "8.52.0",
         "eslint-config-joyn": "3.2.0",
         "eslint-import-resolver-typescript": "3.6.1",
@@ -41,16 +41,11 @@
         "eslint-plugin-prettier": "5.0.1",
         "eslint-plugin-promise": "6.1.1",
         "eslint-plugin-unicorn": "49.0.0",
-        "html-webpack-plugin": "5.5.3",
-        "license-webpack-plugin": "4.0.2",
-        "mini-css-extract-plugin": "2.7.6",
         "prettier": "3.0.3",
+        "rollup-license-plugin": "2.0.0",
         "sinon": "17.0.1",
-        "ts-loader": "9.5.0",
-        "ts-node": "10.9.1",
         "typescript": "5.2.2",
-        "webpack": "5.89.0",
-        "webpack-cli": "5.1.4"
+        "vite": "4.5.0"
     },
     "ava": {
         "extensions": [

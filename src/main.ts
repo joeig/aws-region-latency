@@ -1,5 +1,3 @@
-// eslint-disable-next-line import/no-unassigned-import
-import './assets/index.css';
 import { newIpRangesClient } from './ipRangesClient';
 import { FETCH_TIMEOUT, IP_RANGES_URL, MAX_REGIONS_TO_TEST, REGION_ENDPOINT_TEMPLATE } from './defaultSettings';
 import { newIpRangesManager } from './ipRangesManager';
