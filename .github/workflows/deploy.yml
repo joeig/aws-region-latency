@@ -16,7 +16,7 @@ jobs:
         with:
           node-version: 21.x
       - run: npm ci
-      - run: npm run build
+      - run: npm run build -- --base="/aws-region-latency/"
       - name: Deploy to GitHub pages
         uses: JamesIves/github-pages-deploy-action@releases/v3
         with:
