@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex">
+    <title>Region Latency Meter</title>
+    <style>
+        body {
+            font-family: sans-serif;
+        }
+
+        #results {
+            margin-top: 1em;
+        }
+
+        #results .summary {
+            font-weight: bold;
+            color: #03A9F4;
+        }
+
+        #results table {
+            margin-top: 1em;
+            border-collapse: collapse;
+            border: 0.1em solid black;
+        }
+
+        #results table th,
+        #results table td {
+            border: 0.1em solid black;
+            padding: 0.5em;
+        }
+
+        td.attempt,
+        td.latency {
+            text-align: right;
+        }
+
+        #results table td.bar {
+            width: 30em;
+        }
+
+        td.bar .portion {
+            background-color: #03A9F4;
+        }
+
+        .loader {
+            border: 0.2em solid #bfbfbf;
+            border-top: 0.2em solid black;
+            border-radius: 50%;
+            width: 0.5em;
+            height: 0.5em;
+            animation: spin 0.5s linear infinite;
+            margin-top: 1em;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        span.left {
+            float: left;
+        }
+
+        span.right {
+            float: right;
+        }
+
+        button {
+            font-weight: bold;
+        }
+
+        .error {
+            border: 0.1em solid red;
+            color: red;
+            padding: 0.5em;
+            margin-top: 1em;
+        }
+
+        .contact {
+            font-size: 0.7em;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Region Latency Meter</h1>
+
+<p>
+    This service measures the HTTPS latency from your browser to AWS regions, by requesting regional DynamoDB endpoints.
+</p>
+
+<p>
+    All test requests are performed twice, in order to demonstrate potential differences between the initial request and
+    the second request.
+    Subsequent requests can potentially benefit from established TCP and TLS sessions, thus have reduced network
+    overhead.
+    The measurement results also contain the amount of time which is taken by DynamoDB to process the request and
+    response, although the call should not be expensive.
+</p>
+
+<button id="start-test" autofocus>Start latency meter</button>
+
+<div id="loader" class="loader hidden"></div>
+<div id="error" class="error hidden">
+    <p>
+        Cannot fetch the regions.
+        Check the developer console for details.
+    </p>
+</div>
+<div id="results"></div>
+
+<p class="contact">
+    <a href="https://github.com/joeig/aws-region-latency">GitHub</a>
+    &bull;
+    <a href="mailto:git@remodding.de">Contact</a>
+    &bull;
+    <a href="oss-licenses.json">Licenses</a>
+</p>
+
+<script type="module" src="/src/main.ts"></script>
+
+</body>
+</html>
