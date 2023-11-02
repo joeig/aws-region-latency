@@ -7,7 +7,7 @@
         "preview": "vite preview",
         "eslint": "eslint . --ext '.ts,.js'",
         "eslint:fix": "npm run eslint -- --fix",
-        "test": "c8 ava"
+        "test": "vitest run --coverage"
     },
     "repository": {
         "type": "git",
@@ -25,8 +25,7 @@
         "@types/sinon": "10.0.20",
         "@typescript-eslint/eslint-plugin": "6.9.1",
         "@typescript-eslint/parser": "6.9.1",
-        "ava": "5.3.1",
-        "c8": "8.0.1",
+        "@vitest/coverage-v8": "0.34.6",
         "eslint": "8.52.0",
         "eslint-config-joyn": "3.2.0",
         "eslint-import-resolver-typescript": "3.6.1",
@@ -45,28 +44,7 @@
         "rollup-license-plugin": "2.0.0",
         "sinon": "17.0.1",
         "typescript": "5.2.2",
-        "vite": "4.5.0"
-    },
-    "ava": {
-        "extensions": [
-            "ts"
-        ],
-        "files": [
-            "./test/unit/*.ts"
-        ],
-        "require": [
-            "ts-node/register"
-        ]
-    },
-    "c8": {
-        "all": true,
-        "src": [
-            "./src"
-        ],
-        "check-coverage": true,
-        "statements": 51,
-        "branches": 89,
-        "functions": 84,
-        "lines": 51
+        "vite": "4.5.0",
+        "vitest": "0.34.6"
     }
 }
