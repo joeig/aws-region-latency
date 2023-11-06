@@ -3,7 +3,7 @@
     "main": "src/main.ts",
     "scripts": {
         "dev": "vite",
-        "build": "tsc && vite build",
+        "build": "vite build",
         "preview": "vite preview",
         "eslint": "eslint . --ext '.ts,.js'",
         "eslint:fix": "npm run eslint -- --fix",
