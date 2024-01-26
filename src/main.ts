@@ -1,5 +1,5 @@
 import { newIpRangesClient } from './ipRangesClient';
-import { FETCH_TIMEOUT, IP_RANGES_URL, MAX_REGIONS_TO_TEST, REGION_ENDPOINT_TEMPLATE } from './defaultSettings';
+import { FETCH_TIMEOUT, IP_RANGES_URL, MAX_REGIONS_TO_TEST, formatRegionEndpointUrl } from './defaultSettings';
 import { newIpRangesManager } from './ipRangesManager';
 import { newLatencyMeter } from './latencyMeter';
 import { newResultsView } from './resultsView';
@@ -20,7 +20,7 @@ const startTest = async (resultsElement: Readonly<HTMLDivElement>): Promise<void
             fetch: window.fetch.bind(window),
             performance: window.performance
         },
-        REGION_ENDPOINT_TEMPLATE,
+        formatRegionEndpointUrl,
         FETCH_TIMEOUT
     );
     const { testRegions } = newRegionTester(
