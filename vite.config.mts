@@ -8,7 +8,7 @@ export default defineConfig({
             include: ["src"],
             branches: 90,
             statements: 57,
-            functions: 87,
+            functions: 87, // When changing this, also update the coverage badge of `README.md`.
             lines: 57,
         }
     },
