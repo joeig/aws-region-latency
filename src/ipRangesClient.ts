@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { Milliseconds } from './milliseconds';
+import { Millisecond } from './millisecond';
 
 const prefixSchema = z.object({
     region: z.string().max(25)
@@ -24,7 +24,7 @@ interface IpRangesClientDependencies {
 export const newIpRangesClient = (
     dependencies: Readonly<IpRangesClientDependencies>,
     ipRangesUrl: string,
-    fetchTimeout: Milliseconds
+    fetchTimeout: Millisecond
 ): IpRangesClient => {
     return {
         async fetch(): Promise<IpRanges> {
