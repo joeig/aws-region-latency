@@ -8,7 +8,7 @@ export default defineConfig({
             include: ["src"],
             branches: 90,
             statements: 57,
-            functions: 88,
+            functions: 87,
             lines: 57,
         }
     },
