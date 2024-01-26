@@ -1,5 +1,5 @@
 import { newIpRangesClient } from './ipRangesClient';
-import { FETCH_TIMEOUT, IP_RANGES_URL, MAX_REGIONS_TO_TEST, formatRegionEndpointUrl } from './defaultSettings';
+import { fetchTimeout, ipRangesUrl, maxRegionsToTest, formatRegionEndpointUrl } from './defaultSettings';
 import { newIpRangesManager } from './ipRangesManager';
 import { newLatencyMeter } from './latencyMeter';
 import { newResultsView } from './resultsView';
@@ -13,7 +13,7 @@ const startTest = async (resultsElement: Readonly<HTMLDivElement>): Promise<void
     const latencyStateDispatcher = newStateDispatcher<DataPoint>();
     latencyStateDispatcher.onAddData(resultsView.addRegion);
     latencyStateDispatcher.onResetData(resultsView.initializeEmptyResult);
-    const ipRangesClient = newIpRangesClient({ fetch: window.fetch.bind(window) }, IP_RANGES_URL, FETCH_TIMEOUT);
+    const ipRangesClient = newIpRangesClient({ fetch: window.fetch.bind(window) }, ipRangesUrl, fetchTimeout);
     const ipRangesManager = newIpRangesManager({ ipRangesClient });
     const latencyMeter = newLatencyMeter(
         {
@@ -21,7 +21,7 @@ const startTest = async (resultsElement: Readonly<HTMLDivElement>): Promise<void
             performance: window.performance
         },
         formatRegionEndpointUrl,
-        FETCH_TIMEOUT
+        fetchTimeout
     );
     const { testRegions } = newRegionTester(
         {
@@ -29,7 +29,7 @@ const startTest = async (resultsElement: Readonly<HTMLDivElement>): Promise<void
             latencyMeter,
             onAddData: latencyStateDispatcher.addData
         },
-        MAX_REGIONS_TO_TEST
+        maxRegionsToTest
     );
 
     latencyStateDispatcher.resetData();
