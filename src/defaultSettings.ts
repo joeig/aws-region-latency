@@ -1,8 +1,8 @@
-import { Milliseconds } from './milliseconds';
+import { Millisecond } from './millisecond';
 import { FormatRegionEndpointUrl } from './latencyMeter';
 
 export const ipRangesUrl = 'https://ip-ranges.amazonaws.com/ip-ranges.json';
-export const fetchTimeout: Milliseconds = 10_000;
+export const fetchTimeout: Millisecond = 10_000;
 export const maxRegionsToTest = 50;
 
 export const formatRegionEndpointUrl: FormatRegionEndpointUrl = (region: string) => {

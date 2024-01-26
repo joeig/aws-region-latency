@@ -1,5 +1,5 @@
 import { DataPoint } from './dataPoint';
-import { Milliseconds } from './milliseconds';
+import { Millisecond } from './millisecond';
 
 export interface ResultsView {
     initializeEmptyResult(): void;
@@ -10,7 +10,7 @@ export interface ResultsView {
 export const newResultsView = (
     // eslint-disable-next-line functional/prefer-immutable-types
     resultsElement: HTMLDivElement,
-    fullWidth: Milliseconds = 2000
+    fullWidth: Millisecond = 2000
 ): ResultsView => {
     const resetResults = (): void => {
         // eslint-disable-next-line no-param-reassign
@@ -32,7 +32,7 @@ export const newResultsView = (
         return tableElement;
     };
 
-    const getPortionByMs = (ms: Milliseconds): number => (ms > fullWidth ? 1 : ms / fullWidth);
+    const getPortionByMs = (ms: Millisecond): number => (ms > fullWidth ? 1 : ms / fullWidth);
 
     let summaryElement: HTMLDivElement;
     let tableElement: HTMLTableElement;
