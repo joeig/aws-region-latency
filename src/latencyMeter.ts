@@ -1,5 +1,7 @@
 import { Milliseconds } from './milliseconds';
 
+export type FormatRegionEndpointUrl = (regionName: string) => string;
+
 export interface LatencyMeter {
     measure(region: string): Promise<Milliseconds>;
 }
@@ -11,12 +13,9 @@ interface LatencyMeterDependencies {
 
 export const newLatencyMeter = (
     dependencies: Readonly<LatencyMeterDependencies>,
-    regionEndpointTemplate: string,
+    formatRegionEndpointUrl: FormatRegionEndpointUrl,
     fetchTimeout: Milliseconds
 ): LatencyMeter => {
-    const getTld = (region: string): string => (region.startsWith('cn-') ? 'com.cn' : 'com');
-    const regionEndpointFormatter = (region: string): string =>
-        regionEndpointTemplate.replace('%REGION%', region).replace('%TLD%', getTld(region));
     const abortController = new AbortController();
     const abortTimeout = setTimeout(() => {
         abortController.abort();
@@ -32,7 +31,7 @@ export const newLatencyMeter = (
 
     return {
         async measure(region: string): Promise<number> {
-            return measure(regionEndpointFormatter(region));
+            return measure(formatRegionEndpointUrl(region));
         }
     };
 };
