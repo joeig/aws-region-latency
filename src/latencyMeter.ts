@@ -1,6 +1,5 @@
 import { Millisecond } from './millisecond';
-
-export type FormatRegionEndpointUrl = (regionName: string) => string;
+import { FormatRegionEndpointUrl } from './formatRegionEndpointUrl';
 
 export interface LatencyMeter {
     measure(region: string): Promise<Millisecond>;
