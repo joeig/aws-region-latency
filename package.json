@@ -22,7 +22,6 @@
         "zod": "3.22.4"
     },
     "devDependencies": {
-        "@types/sinon": "17.0.2",
         "@typescript-eslint/eslint-plugin": "6.17.0",
         "@typescript-eslint/parser": "6.17.0",
         "@vitest/coverage-v8": "0.34.6",
@@ -42,7 +41,6 @@
         "eslint-plugin-unicorn": "50.0.1",
         "prettier": "3.1.1",
         "rollup-license-plugin": "2.0.0",
-        "sinon": "17.0.1",
         "typescript": "5.3.3",
         "vite": "4.5.3",
         "vitest": "0.34.6"
