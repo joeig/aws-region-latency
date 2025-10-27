@@ -17,8 +17,8 @@ export const newResultsView = (
         resultsElement.innerHTML = '';
     };
 
-    const prepareSummary = (): HTMLDivElement => {
-        const summaryElement = document.createElement('div');
+    const prepareSummary = (): HTMLParagraphElement => {
+        const summaryElement = document.createElement('p');
         summaryElement.className = 'summary';
         resultsElement.append(summaryElement);
 
@@ -41,7 +41,6 @@ export const newResultsView = (
         // eslint-disable-next-line max-statements
         initializeEmptyResult(): void {
             resetResults();
-            summaryElement = prepareSummary();
             tableElement = prepareTable();
 
             const headRow = document.createElement('tr');
@@ -62,6 +61,8 @@ export const newResultsView = (
             const thBar = document.createElement('th');
             headRow.append(thBar);
             thBar.innerHTML = `<span class="left">0 ms</span><span class="right">${fullWidth}+ ms</span>`;
+
+            summaryElement = prepareSummary();
         },
         updateSummary({ region, latency }: Readonly<DataPoint>): void {
             summaryElement.textContent = `The region with the best result is ${region} (${Math.round(latency)} ms).`;
