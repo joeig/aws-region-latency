@@ -18,7 +18,7 @@
         "url": "https://github.com/joeig/aws-region-latency/issues"
     },
     "dependencies": {
-        "async-mutex": "0.4.0",
+        "p-each-series": "3.0.0",
         "zod": "3.22.4"
     },
     "devDependencies": {
