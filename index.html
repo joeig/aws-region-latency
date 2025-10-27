@@ -10,6 +10,11 @@
             font-family: sans-serif;
         }
 
+        .container {
+            max-width: 60em;
+            margin: 0 auto;
+        }
+
         #results {
             margin-top: 1em;
         }
@@ -94,39 +99,38 @@
 </head>
 <body>
 
-<h1>Region Latency Meter</h1>
+<div class="container">
+    <h1>Region Latency Meter</h1>
 
-<p>
-    This service measures the HTTPS latency from your browser to AWS regions, by requesting regional DynamoDB endpoints.
-</p>
-
-<p>
-    All test requests are performed twice, in order to demonstrate potential differences between the initial request and
-    the second request.
-    Subsequent requests can potentially benefit from established TCP and TLS sessions, thus have reduced network
-    overhead.
-    The measurement results also contain the amount of time which is taken by DynamoDB to process the request and
-    response, although the call should not be expensive.
-</p>
-
-<button id="start-test" autofocus>Start latency meter</button>
-
-<div id="loader" class="loader hidden"></div>
-<div id="error" class="error hidden">
     <p>
-        Cannot fetch the regions.
-        Check the developer console for details.
+        This service measures the HTTPS latency from your browser to AWS regions, by requesting regional DynamoDB endpoints.
+    </p>
+
+    <p>
+        All test requests are performed twice, in order to demonstrate potential differences between the initial request and the second request.
+        Subsequent requests can potentially benefit from established TCP and TLS sessions, thus have reduced network overhead.
+        The measurement results also contain the amount of time which is taken by DynamoDB to process the request and response, although the call should not be expensive.
+    </p>
+
+    <button id="start-test" autofocus>Start latency meter</button>
+
+    <div id="loader" class="loader hidden"></div>
+    <div id="error" class="error hidden">
+        <p>
+            Cannot fetch the regions.
+            Check the developer console for details.
+        </p>
+    </div>
+    <div id="results"></div>
+
+    <p class="contact">
+        <a href="https://github.com/joeig/aws-region-latency">GitHub</a>
+        &bull;
+        <a href="mailto:git@remodding.de">Contact</a>
+        &bull;
+        <a href="oss-licenses.json">Licenses</a>
     </p>
 </div>
-<div id="results"></div>
-
-<p class="contact">
-    <a href="https://github.com/joeig/aws-region-latency">GitHub</a>
-    &bull;
-    <a href="mailto:git@remodding.de">Contact</a>
-    &bull;
-    <a href="oss-licenses.json">Licenses</a>
-</p>
 
 <script type="module" src="/src/main.ts"></script>
 
