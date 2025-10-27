@@ -1,4 +1,4 @@
-import { Mutex } from 'async-mutex';
+import pEachSeries from 'p-each-series';
 import { IpRangesManager } from './ipRangesManager';
 import { LatencyMeter } from './latencyMeter';
 import { DataPoint, invalidLatency } from './dataPoint';
@@ -10,6 +10,7 @@ interface RegionTester {
 export interface RegionTesterDependencies {
     ipRangesManager: IpRangesManager;
     latencyMeter: LatencyMeter;
+
     onAddData(data: Readonly<DataPoint>): void;
 }
 
@@ -29,16 +30,12 @@ export const newRegionTester = (
     return {
         async testRegions(): Promise<void> {
             const regions = await ipRangesManager.fetchRegions();
-            const mutex = new Mutex();
+            const regionsToTest = regions.slice(0, maxRegionsToTest);
 
-            await Promise.all(
-                regions.slice(0, maxRegionsToTest).map(async (region) =>
-                    mutex.runExclusive(async () => {
-                        await testRegion(region, 0);
-                        await testRegion(region, 1);
-                    })
-                )
-            );
+            await pEachSeries(regionsToTest, async (region) => {
+                await testRegion(region, 0);
+                await testRegion(region, 1);
+            });
         }
     };
 };
