@@ -17,6 +17,9 @@
     "bugs": {
         "url": "https://github.com/joeig/aws-region-latency/issues"
     },
+    "engines": {
+        "node": "22"
+    },
     "dependencies": {
         "p-each-series": "3.0.0",
         "zod": "3.22.4"
