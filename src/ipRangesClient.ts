@@ -8,7 +8,7 @@ const prefixSchema = z.object({
 export type Prefix = z.infer<typeof prefixSchema>;
 
 const ipRangesSchema = z.object({
-    prefixes: z.array(prefixSchema).max(10_000)
+    prefixes: z.array(prefixSchema).max(15_000)
 });
 
 type IpRanges = z.infer<typeof ipRangesSchema>;
