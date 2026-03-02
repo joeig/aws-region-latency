@@ -47,15 +47,5 @@
         "typescript": "5.9.3",
         "vite": "7.2.2",
         "vitest": "4.0.10"
-    },
-    "devEngines": {
-        "runtime": {
-            "name": "node",
-            "onFail": "error"
-        },
-        "packageManager": {
-            "name": "npm",
-            "onFail": "error"
-        }
     }
 }
